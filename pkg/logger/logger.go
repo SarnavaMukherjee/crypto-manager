@@ -1,5 +1,5 @@
 /**
- * File: main.go
+ * File: logger.go
  * Author: Sarnava Mukherjee
  * Contact: (sarnavamukherjee20@gmail.com)
  */
@@ -86,44 +86,28 @@ func ObserveLogging(level zapcore.Level) *observer.ObservedLogs {
 }
 
 // Debug logs a debug message with the given fields
-func Debug(tenant, tag, message string, fields ...interface{}) {
-	msg := getMessageString(tenant, tag, message)
+func Debug(msg string, fields ...interface{}) {
 	zap.S().Debugf(msg, fields...)
 }
 
 // Info logs a debug message with the given fields
-func Info(tenant, tag, message string, fields ...interface{}) {
-	msg := getMessageString(tenant, tag, message)
+func Info(msg string, fields ...interface{}) {
 	zap.S().Infof(msg, fields...)
 }
 
 // Warn logs a debug message with the given fields
-func Warn(tenant, tag, message string, fields ...interface{}) {
-	msg := getMessageString(tenant, tag, message)
+func Warn(msg string, fields ...interface{}) {
 	zap.S().Warnf(msg, fields...)
 }
 
 // Error logs a debug message with the given fields
-func Error(tenant, tag, message string, fields ...interface{}) {
-	msg := getMessageString(tenant, tag, message)
+func Error(msg string, fields ...interface{}) {
 	zap.S().Errorf(msg, fields...)
 }
 
 // Fatal logs a message than calls os.Exit(1)
-func Fatal(tenant, tag, message string, fields ...interface{}) {
-	msg := getMessageString(tenant, tag, message)
+func Fatal(msg string, fields ...interface{}) {
 	zap.S().Fatalf(msg, fields...)
 	zap.S().Sync()
 	os.Exit(1)
-}
-func getMessageString(tenant, tag, message string) string {
-	msg := "[" + serviceName + "]"
-	if len(tenant) > 0 {
-		msg += "[" + strings.ToUpper(tenant) + "]"
-	}
-	if len(tag) > 0 {
-		msg += "[" + strings.ToUpper(tag) + "]"
-	}
-	msg += message
-	return msg
 }
